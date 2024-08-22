@@ -38,6 +38,9 @@ public class RootData : SerializedScriptableObject
 
     #endregion
 
+    [InlineEditor()]
+    public PlayerData PlayerData;
+    
     public Dictionary<int, GameObject> Vehicles = new();
 
 }

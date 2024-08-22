@@ -121,7 +121,34 @@ MonoBehaviour:
   MinRPM: 5000
   EnginePower:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.32337415
+      outSlope: 0.32337415
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.037488744
+    - serializedVersion: 3
+      time: 7900
+      value: 777
+      inSlope: 0.00024235676
+      outSlope: 0.00024235676
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.17590554
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 9530
+      value: 565
+      inSlope: -0.13006134
+      outSlope: -0.13006134
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

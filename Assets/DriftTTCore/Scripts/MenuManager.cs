@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -25,7 +26,7 @@ public class MenuManager : MonoBehaviour
     public Text currency;
     public Text carInfo;
 
-    public Dictionary<int, GameObject> vehicles => RootData.RootInstance.Vehicles;
+    public Dictionary<int, GameObject> Vehicles => RootData.RootInstance.Vehicles;
 
 
     public GameObject toRotate;
@@ -39,15 +40,15 @@ public class MenuManager : MonoBehaviour
         DeafaultCanvas.SetActive(true);
         vehicleSelectCanvas.SetActive(false);
 
-        DeafaultCanvasCurrency.text = "$" + PlayerPrefs.GetInt("currency");
-        upgradesCurrency.text = "$" + PlayerPrefs.GetInt("currency");
+        DeafaultCanvasCurrency.text = "$" + RootData.RootInstance.PlayerData.PlayerMoney;
+        upgradesCurrency.text = "$" + RootData.RootInstance.PlayerData.PlayerMoney;
 
 
         vehiclePointer = PlayerPrefs.GetInt("pointer");
         GameObject childObject =
-            Instantiate(vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation);
+            Instantiate(Vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation);
         childObject.transform.parent = toRotate.transform;
-        getCarInfo();
+        DrawVehicleInfo();
     }
 
     private void FixedUpdate()
@@ -58,16 +59,16 @@ public class MenuManager : MonoBehaviour
 
     public void rightButton()
     {
-        if (vehiclePointer < vehicles.Values.Count - 1)
+        if (vehiclePointer < Vehicles.Values.Count - 1)
         {
             Destroy(GameObject.FindGameObjectWithTag("Player"));
             vehiclePointer++;
             PlayerPrefs.SetInt("pointer", vehiclePointer);
             GameObject childObject =
-                Instantiate(vehicles[vehiclePointer], Vector3.zero,
+                Instantiate(Vehicles[vehiclePointer], Vector3.zero,
                     toRotate.transform.rotation);
             childObject.transform.parent = toRotate.transform;
-            getCarInfo();
+            DrawVehicleInfo();
         }
     }
 
@@ -79,10 +80,10 @@ public class MenuManager : MonoBehaviour
             vehiclePointer--;
             PlayerPrefs.SetInt("pointer", vehiclePointer);
             GameObject childObject =
-                Instantiate(vehicles[vehiclePointer], Vector3.zero,
+                Instantiate(Vehicles[vehiclePointer], Vector3.zero,
                     toRotate.transform.rotation);
             childObject.transform.parent = toRotate.transform;
-            getCarInfo();
+            DrawVehicleInfo();
         }
     }
 
@@ -95,32 +96,36 @@ public class MenuManager : MonoBehaviour
 
     public void BuyButton()
     {
-        var pickedVehicle = vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+        var playerData = RootData.RootInstance.PlayerData;
+        var pickedVehicle = Vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
         var pickedVehicleData = pickedVehicle.VehicleData;
 
-        if (PlayerPrefs.GetInt("currency") < pickedVehicleData.VehiclePrice) return;
-        PlayerPrefs.SetInt("currency", PlayerPrefs.GetInt("currency") - pickedVehicle.VehicleData.VehiclePrice);
-
-        PlayerPrefs.SetString(pickedVehicleData.VehicleName, pickedVehicleData.VehicleName);
-        getCarInfo();
+        if (playerData.PlayerMoney < pickedVehicleData.VehiclePrice) return;
+        
+        playerData.ChangeMoneyValue(-pickedVehicle.VehicleData.VehiclePrice);
+        playerData.UnlockVehicle(PlayerPrefs.GetInt("pointer"));
+        
+        DrawVehicleInfo();
     }
 
-    public void getCarInfo()
+    public void DrawVehicleInfo()
     {
-        var pickedVehicle = vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+        var vehicleId = PlayerPrefs.GetInt("pointer");
+        var pickedVehicle = Vehicles[vehicleId].GetComponent<VehicleController>();
         var pickedVehicleData = pickedVehicle.VehicleData;
+        
 
-        if (pickedVehicleData.VehicleName == PlayerPrefs.GetString(pickedVehicleData.VehicleName))
+        if (RootData.RootInstance.PlayerData.UnlockedVehicles.Contains(vehicleId))
         {
             carInfo.text = "Owned";
             startButton.SetActive(true);
             buyButton.SetActive(false);
-            currency.text = "$" + PlayerPrefs.GetInt("currency").ToString("");
+            currency.text = "$" + RootData.RootInstance.PlayerData.PlayerMoney.ToString("");
 
             return;
         }
 
-        currency.text = "$" + PlayerPrefs.GetInt("currency").ToString("");
+        currency.text = "$" + RootData.RootInstance.PlayerData.PlayerMoney.ToString("");
 
         carInfo.text = pickedVehicleData.VehicleName + " $ " + pickedVehicleData.VehiclePrice;
 

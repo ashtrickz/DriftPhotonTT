@@ -3407,7 +3407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 844420887}
   m_Layer: 0
-  m_Name: environment
+  m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4080,7 +4080,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &1058738160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6263,7 +6263,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &1701910250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6323,7 +6323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xPointer: -520
-  list: {fileID: 0}
   chilldObject: {fileID: 2052879471}
   exitPanelButton: {fileID: 1483280196}
   engineUpgrade: {fileID: 1792041172}
