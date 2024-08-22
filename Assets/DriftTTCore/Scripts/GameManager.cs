@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     //public vehicle Vehicle;
-    public controller RR;
     public GameObject neeedle;
     public GameObject startPosition;
     public Text kph;
@@ -34,25 +34,26 @@ public class GameManager : MonoBehaviour {
 
     public Dictionary<int, GameObject> vehicles => RootData.RootInstance.Vehicles;
 
+    public VehicleController PickedVehicle => vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+    
     private void Awake () {
 
-        Instantiate (vehicles[PlayerPrefs.GetInt("pointer")], startPosition.transform.position, startPosition.transform.rotation);
-        RR = GameObject.FindGameObjectWithTag ("Player").GetComponent<controller> ();
+        Instantiate (PickedVehicle, startPosition.transform.position, startPosition.transform.rotation);
 
         presentGameObjectVehicles = GameObject.FindGameObjectsWithTag ("AI");
 
         presentVehicles = new List<Vehicle> ();
         foreach (GameObject R in presentGameObjectVehicles)
-            presentVehicles.Add (new Vehicle (R.GetComponent<inputManager> ().currentNode, R.GetComponent<controller> ().carName,R.GetComponent<controller> ().hasFinished));
+            presentVehicles.Add (new Vehicle (R.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName,R.GetComponent<VehicleController> ().HasFinished));
 
-        presentVehicles.Add (new Vehicle (RR.gameObject.GetComponent<inputManager> ().currentNode, RR.carName , RR.hasFinished));
+        presentVehicles.Add (new Vehicle (PickedVehicle.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName , PickedVehicle.HasFinished));
 
         temporaryArray = new GameObject[presentVehicles.Count];
 
         temporaryList = new List<GameObject> ();
         foreach (GameObject R in presentGameObjectVehicles)
             temporaryList.Add (R);
-        temporaryList.Add (RR.gameObject);
+        temporaryList.Add (PickedVehicle.gameObject);
 
         fullArray = temporaryList.ToArray ();
         //displayArray ();
@@ -60,8 +61,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void FixedUpdate () {
-        if(RR.hasFinished)displayArray();
-        kph.text = RR.KPH.ToString ("0");
+        if(PickedVehicle.HasFinished)displayArray();
+        kph.text = PickedVehicle.KPH.ToString ("0");
         updateNeedle ();
         nitrusUI ();
         coundDownTimer();
@@ -69,29 +70,29 @@ public class GameManager : MonoBehaviour {
 
     public void updateNeedle () {
         desiredPosition = startPosiziton - endPosition;
-        float temp = RR.engineRPM / 10000;
+        float temp = PickedVehicle.engineRPM / 10000;
         neeedle.transform.eulerAngles = new Vector3 (0, 0, (startPosiziton - temp * desiredPosition));
 
     }
 
     public void changeGear () {
-        gearNum.text = (!RR.reverse) ? (RR.gearNum + 1).ToString () : "R";
+        gearNum.text = (!PickedVehicle.reverse) ? (PickedVehicle.gearNum + 1).ToString () : "R";
 
     }
 
     public void nitrusUI () {
-        nitrusSlider.value = RR.nitrusValue / 45;
+        nitrusSlider.value = PickedVehicle.nitrusValue / 45;
     }
 
     private void sortArray () {
 
         for (int i = 0; i < fullArray.Length; i++) {
-            presentVehicles[i].hasFinished = fullArray[i].GetComponent<controller>().hasFinished;
-            presentVehicles[i].name = fullArray[i].GetComponent<controller> ().carName;
+            presentVehicles[i].hasFinished = fullArray[i].GetComponent<VehicleController>().HasFinished;
+            presentVehicles[i].name = fullArray[i].GetComponent<VehicleController> ().VehicleData.VehicleName;
             presentVehicles[i].node = fullArray[i].GetComponent<inputManager> ().currentNode;
         }
 
-        if(!RR.hasFinished)
+        if(!PickedVehicle.HasFinished)
         for (int i = 0; i < presentVehicles.Count; i++) {
             for (int j = i + 1; j < presentVehicles.Count; j++) {
                 if (presentVehicles[j].node < presentVehicles[i].node) {
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour {
         }
         presentVehicles.Reverse();
         for (int i = 0; i < temporaryArray.Length; i++) {
-            if(RR.carName == presentVehicles[i].name)
+            if(PickedVehicle.VehicleData.VehicleName == presentVehicles[i].name)
                 currentPosition.text = ((i+1) + "/" + presentVehicles.Count).ToString();
         }
 

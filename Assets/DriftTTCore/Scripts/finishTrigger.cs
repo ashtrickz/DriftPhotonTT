@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class finishTrigger : MonoBehaviour{
 
-    public controller Controller;
+    public VehicleController vehicleController;
 
     private void OnTriggerEnter(Collider other) {
         if(other.tag == "Finish")
-            Controller.hasFinished = true;
+            vehicleController.HasFinished = true;
             
     }
 

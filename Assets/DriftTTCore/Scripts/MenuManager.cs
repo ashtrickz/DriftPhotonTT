@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class awakeManager : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
     [Header("Camera")] public float lerpTime;
     public GameObject CameraObject;
@@ -39,13 +39,13 @@ public class awakeManager : MonoBehaviour
         DeafaultCanvas.SetActive(true);
         vehicleSelectCanvas.SetActive(false);
 
-        DeafaultCanvasCurrency.text = "$" + PlayerPrefs.GetInt("currency").ToString();
-        upgradesCurrency.text = "$" + PlayerPrefs.GetInt("currency").ToString();
+        DeafaultCanvasCurrency.text = "$" + PlayerPrefs.GetInt("currency");
+        upgradesCurrency.text = "$" + PlayerPrefs.GetInt("currency");
 
 
         vehiclePointer = PlayerPrefs.GetInt("pointer");
         GameObject childObject =
-            Instantiate(vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation) as GameObject;
+            Instantiate(vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation);
         childObject.transform.parent = toRotate.transform;
         getCarInfo();
     }
@@ -65,7 +65,7 @@ public class awakeManager : MonoBehaviour
             PlayerPrefs.SetInt("pointer", vehiclePointer);
             GameObject childObject =
                 Instantiate(vehicles[vehiclePointer], Vector3.zero,
-                    toRotate.transform.rotation) as GameObject;
+                    toRotate.transform.rotation);
             childObject.transform.parent = toRotate.transform;
             getCarInfo();
         }
@@ -80,7 +80,7 @@ public class awakeManager : MonoBehaviour
             PlayerPrefs.SetInt("pointer", vehiclePointer);
             GameObject childObject =
                 Instantiate(vehicles[vehiclePointer], Vector3.zero,
-                    toRotate.transform.rotation) as GameObject;
+                    toRotate.transform.rotation);
             childObject.transform.parent = toRotate.transform;
             getCarInfo();
         }
@@ -95,24 +95,22 @@ public class awakeManager : MonoBehaviour
 
     public void BuyButton()
     {
-        if (PlayerPrefs.GetInt("currency") >=
-            vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carPrice)
-        {
-            PlayerPrefs.SetInt("currency",
-                PlayerPrefs.GetInt("currency") - vehicles[PlayerPrefs.GetInt("pointer")]
-                    .GetComponent<controller>().carPrice);
+        var pickedVehicle = vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+        var pickedVehicleData = pickedVehicle.VehicleData;
 
-            PlayerPrefs.SetString(vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName.ToString(),
-                vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName.ToString());
-            getCarInfo();
-        }
+        if (PlayerPrefs.GetInt("currency") < pickedVehicleData.VehiclePrice) return;
+        PlayerPrefs.SetInt("currency", PlayerPrefs.GetInt("currency") - pickedVehicle.VehicleData.VehiclePrice);
+
+        PlayerPrefs.SetString(pickedVehicleData.VehicleName, pickedVehicleData.VehicleName);
+        getCarInfo();
     }
 
     public void getCarInfo()
     {
-        if (vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName.ToString() ==
-            PlayerPrefs.GetString(vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>()
-                .carName.ToString()))
+        var pickedVehicle = vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+        var pickedVehicleData = pickedVehicle.VehicleData;
+
+        if (pickedVehicleData.VehicleName == PlayerPrefs.GetString(pickedVehicleData.VehicleName))
         {
             carInfo.text = "Owned";
             startButton.SetActive(true);
@@ -124,10 +122,7 @@ public class awakeManager : MonoBehaviour
 
         currency.text = "$" + PlayerPrefs.GetInt("currency").ToString("");
 
-        carInfo.text = vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName
-                           .ToString() + " $ " +
-                       vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carPrice
-                           .ToString();
+        carInfo.text = pickedVehicleData.VehicleName + " $ " + pickedVehicleData.VehiclePrice;
 
         startButton.SetActive(false);
         buyButton.SetActive(buyButton);
@@ -175,11 +170,11 @@ public class awakeManager : MonoBehaviour
 
     public void loadMarioMap()
     {
-        SceneManager.LoadScene("superMarioMap");
+        SceneManager.LoadScene("MarioMap");
     }
 
     public void loadComunityMap()
     {
-        SceneManager.LoadScene("ComunityMap");
+        SceneManager.LoadScene("CommunityMap");
     }
 }

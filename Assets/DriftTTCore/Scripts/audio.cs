@@ -46,7 +46,7 @@ using Random = UnityEngine.Random;
         private AudioSource m_HighDecel; // Source for the high deceleration sounds
         private bool m_StartedSound; // flag for knowing if we have started sounds
         //private CarController m_CarController; // Reference to car we are controlling
-        public controller m_CarController;
+        public VehicleController mCarVehicleController;
         public inputManager InputManager;
         private AIcontroller aicontroler;
         
@@ -104,7 +104,7 @@ using Random = UnityEngine.Random;
             if (m_StartedSound)
             {
                 // The pitch is interpolated between the min and max values, according to the car's revs.
-                float pitch = ULerp(lowPitchMin, lowPitchMax, m_CarController.engineRPM / m_CarController.maxRPM);
+                float pitch = ULerp(lowPitchMin, lowPitchMax, mCarVehicleController.engineRPM / mCarVehicleController.VehicleData.MaxRPM);
 
                 // clamp to minimum pitch (note, not clamped to max for high revs while burning out)
                 pitch = Mathf.Min(lowPitchMax, pitch);
@@ -128,12 +128,12 @@ using Random = UnityEngine.Random;
                     float accFade = 0;
                 // get values for fading the sounds based on the acceleration
        
-                    accFade = Mathf.Abs((InputManager.vertical > 0 && !m_CarController.test ) ?InputManager.vertical : 0);
+                    accFade = Mathf.Abs((InputManager.vertical > 0 && !mCarVehicleController.VehicleData.test ) ?InputManager.vertical : 0);
 
                     float decFade = 1 - accFade;
 
                     // get the high fade value based on the cars revs
-                    float highFade = Mathf.InverseLerp(0.2f, 0.8f,  m_CarController.engineRPM / 10000);
+                    float highFade = Mathf.InverseLerp(0.2f, 0.8f,  mCarVehicleController.engineRPM / 10000);
                     float lowFade = 1 - highFade;
 
                     // adjust the values to be more realistic

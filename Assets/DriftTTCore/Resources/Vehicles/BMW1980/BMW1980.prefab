@@ -6821,55 +6821,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434cf01a841ee2344b8788c24624771d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drive: 2
+  eDrive: 0
   test: 0
-  handBrakeFrictionMultiplier: 2
-  maxRPM: 8500
-  minRPM: 5000
-  gears:
-  - 5
-  - 2.8
-  - 2.2
-  - 1.6
-  - 1.1
-  - 0.7
-  gearChangeSpeed:
-  - 45
-  - 78
-  - 110
-  - 150
-  - 200
-  - 250
-  enginePower:
+  HandBrakeFrictionMultiplier: 2
+  MaxRPM: 0
+  MinRPM: 0
+  Gears:
+  - 1
+  GearChangeSpeed:
+  - 0
+  EnginePower:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 4.3402834
-      value: 51.33716
-      inSlope: 0.111855164
-      outSlope: 0.111855164
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.112477586
-    - serializedVersion: 3
-      time: 6979.9917
-      value: 421.98407
-      inSlope: -0.005127997
-      outSlope: -0.005127997
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.0882489
-      outWeight: 0.550979
-    - serializedVersion: 3
-      time: 8605.235
-      value: 209.70056
-      inSlope: -0.25033534
-      outSlope: -0.25033534
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.2511919
-      outWeight: 0.33333334
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

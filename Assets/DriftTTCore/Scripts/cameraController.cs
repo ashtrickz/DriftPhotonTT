@@ -5,7 +5,7 @@ using UnityEngine;
 public class cameraController : MonoBehaviour {
 
     private GameObject Player;
-    private controller RR;
+    private VehicleController RR;
     private GameObject cameralookAt,cameraPos;
     private float speed = 0;
     private float defaltFOV = 0, desiredFOV = 0;
@@ -13,7 +13,7 @@ public class cameraController : MonoBehaviour {
 
     private void Start () {
         Player = GameObject.FindGameObjectWithTag ("Player");
-        RR = Player.GetComponent<controller> ();
+        RR = Player.GetComponent<VehicleController> ();
         cameralookAt = Player.transform.Find ("camera lookAt").gameObject;
         cameraPos = Player.transform.Find ("camera constraint").gameObject;
 

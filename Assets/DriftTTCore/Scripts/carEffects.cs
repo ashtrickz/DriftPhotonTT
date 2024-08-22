@@ -10,14 +10,14 @@ public class carEffects : MonoBehaviour
     public ParticleSystem[] smoke;
     public ParticleSystem[] nitrusSmoke;
     //public GameObject lights;
-    private controller controller;
+    private VehicleController vehicleController;
     private inputManager IM;
     private bool smokeFlag  = false , lightsFlag = false , tireMarksFlag;
 
     //do lights in here 
     private void Start() {
         if(gameObject.tag == "AI")return;
-        controller = GetComponent<controller>();
+        vehicleController = GetComponent<VehicleController>();
         IM = GetComponent<inputManager>();
 
     }
@@ -31,7 +31,7 @@ public class carEffects : MonoBehaviour
     }
 
     private void activateSmoke(){
-        if (controller.playPauseSmoke) startSmoke();
+        if (vehicleController.playPauseSmoke) startSmoke();
         else stopSmoke();
 
         if (smokeFlag)
@@ -39,7 +39,7 @@ public class carEffects : MonoBehaviour
             for (int i = 0; i < smoke.Length; i++)
             {
                 var emission = smoke[i].emission;
-                emission.rateOverTime = ((int)controller.KPH * 10 <= 2000) ? (int)controller.KPH * 10 : 2000;
+                emission.rateOverTime = ((int)vehicleController.KPH * 10 <= 2000) ? (int)vehicleController.KPH * 10 : 2000;
             }
         }
     }
@@ -48,7 +48,7 @@ public class carEffects : MonoBehaviour
         if(smokeFlag)return;
         for (int i = 0; i < smoke.Length; i++){
             var emission = smoke[i].emission;
-            emission.rateOverTime = ((int) controller.KPH *2 >= 2000) ? (int) controller.KPH * 2 : 2000;
+            emission.rateOverTime = ((int) vehicleController.KPH *2 >= 2000) ? (int) vehicleController.KPH * 2 : 2000;
             smoke[i].Play();
         }
         smokeFlag = true;
@@ -65,27 +65,27 @@ public class carEffects : MonoBehaviour
 
     public void startNitrusEmitter()
     {
-        if (controller.nitrusFlag) return;
+        if (vehicleController.nitrusFlag) return;
         for (int i = 0; i < nitrusSmoke.Length; i++)
         {
             nitrusSmoke[i].Play();
         }
 
-        controller.nitrusFlag = true;
+        vehicleController.nitrusFlag = true;
     }
     public void stopNitrusEmitter()
     {
-        if (!controller.nitrusFlag) return;
+        if (!vehicleController.nitrusFlag) return;
         for (int i = 0; i < nitrusSmoke.Length; i++)
         {
             nitrusSmoke[i].Stop();
         }
-        controller.nitrusFlag = false;
+        vehicleController.nitrusFlag = false;
 
     }
 
     private void activateLights() {
-        if (IM.vertical < 0 || controller.KPH <= 1) turnLightsOn();
+        if (IM.vertical < 0 || vehicleController.KPH <= 1) turnLightsOn();
         else turnLightsOff();
     }
 

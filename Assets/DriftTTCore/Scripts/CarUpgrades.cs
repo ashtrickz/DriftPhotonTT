@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CarUpgrades : MonoBehaviour
 {
     public int xPointer = -520; // used for the x value of the canvases
-    public vehicleList list;
     public GameObject chilldObject;
     [Header("exitPanelButton")]
     public GameObject exitPanelButton;
@@ -41,6 +42,10 @@ public class CarUpgrades : MonoBehaviour
 
     public GameObject[] generatedArray;
 
+    public Dictionary<int, GameObject> Vehicles => RootData.RootInstance.Vehicles;
+
+    public VehicleController PickedVehicle => Vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+    
     private void Start(){
         organiseUpgradesPanel();
     }
@@ -55,37 +60,39 @@ public class CarUpgrades : MonoBehaviour
 
     private void organiseUpgradesPanel() {
         xPointer = -520;
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().engineUpgrade){
+        var carModifier = PickedVehicle.GetComponent<carModifier>();
+        
+        if (carModifier.engineUpgrade){
             engineUpgrade.SetActive(true);
             engineUpgrade.transform.localPosition = new Vector3(xPointer, 0);
             enginePrice.text = "";
             xPointer += 210;
         }        
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().handlingUpgrade){
+        if (carModifier.handlingUpgrade){
             handlingUpgrade.SetActive(true);
             handlingPrice.text = "";
             handlingUpgrade.transform.localPosition = new Vector3(xPointer, 0);
             xPointer += 210;
         }        
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().nitrusUpgrade){
+        if (carModifier.nitrusUpgrade){
             nitrusUpgrade.SetActive(true);
             nitrusPrice.text = "";
             nitrusUpgrade.transform.localPosition = new Vector3(xPointer, 0);
             xPointer += 210;
         }      
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().wheelUpgrade){
+        if (carModifier.wheelUpgrade){
             wheelUpgrade.SetActive(true);
             wheelPrice.text = "";
             wheelUpgrade.transform.localPosition = new Vector3(xPointer, 0);
             xPointer += 210;
         }       
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().spoilerUpgrade){
+        if (carModifier.spoilerUpgrade){
             spoilerUpgrade.SetActive(true);
             spoilerPrice.text = "";
             spoilerUpgrade.transform.localPosition = new Vector3(xPointer, 0);
             xPointer += 210;
         }
-        if (list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().colorUpgrade){
+        if (carModifier.colorUpgrade){
             colorUpgrade.SetActive(true);
             colorPrice.text = "";
             colorUpgrade.transform.localPosition = new Vector3(xPointer, 0);
@@ -113,17 +120,17 @@ public class CarUpgrades : MonoBehaviour
 
     //upgrade buttons >
     public void engineUpgradeButton(){
+        
+        var pickedVehicleData = PickedVehicle.VehicleData;
         if (engineFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_engineUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_engineUpgrade;
         generatedArray = new GameObject[length.Length];
-        for (int i = 0; i < length.Length ; i++) {
+        for (int i = 0; i < length.Length ; i++)
+        {
             generateArray("engineUpgrade", engineUpgrade, length, i, enginePrice,
-                //list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_engineUpgrade
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "engineUpgrade").ToString())
-                ) ;
+                PlayerPrefs.GetInt(pickedVehicleData.VehicleName + "engineUpgrade"));
         }
-
         engineFlag = true;
         disablePanel();
         exitPanelButton.SetActive(false);
@@ -132,11 +139,11 @@ public class CarUpgrades : MonoBehaviour
     public void spoilerUpgradeButton(){
         if (spoilerFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_spoilerUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_spoilerUpgrade;
         generatedArray = new GameObject[length.Length];
         for (int i = 0; i < length.Length ; i++) {
             generateArray("spoilerUpgrade", spoilerUpgrade, length,i, spoilerPrice,
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "spoilerUpgrade").ToString())
+                PlayerPrefs.GetInt((PickedVehicle.VehicleData.VehicleName + "spoilerUpgrade").ToString())
                 );
         }
 
@@ -148,11 +155,11 @@ public class CarUpgrades : MonoBehaviour
     public void nitrusUpgradeButton(){
         if (nitrusFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_nitrusUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_nitrusUpgrade;
         generatedArray = new GameObject[length.Length];
         for (int i = 0; i < length.Length ; i++) {
             generateArray("nitrusUpgrade", nitrusUpgrade, length,i, nitrusPrice,
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "nitrusUpgrade").ToString())
+                PlayerPrefs.GetInt((PickedVehicle.VehicleData.VehicleName + "nitrusUpgrade").ToString())
                 );
         }
 
@@ -164,11 +171,11 @@ public class CarUpgrades : MonoBehaviour
     public void colorUpgradeButton(){
         if (colorFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_colorUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_colorUpgrade;
         generatedArray = new GameObject[length.Length];
         for (int i = 0; i < length.Length ; i++) {
             generateArray("colorUpgrade", colorUpgrade, length,i, colorPrice,
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "colorUpgrade").ToString())
+                PlayerPrefs.GetInt((PickedVehicle.VehicleData.VehicleName + "colorUpgrade").ToString())
                 );
         }
 
@@ -180,11 +187,11 @@ public class CarUpgrades : MonoBehaviour
     public void wheelUpgradeButton(){
         if (wheelFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_wheelUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_wheelUpgrade;
         generatedArray = new GameObject[length.Length];
         for (int i = 0; i < length.Length ; i++) {
             generateArray("wheelUpgrade", wheelUpgrade, length,i, wheelPrice,
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "wheelUpgrade").ToString())
+                PlayerPrefs.GetInt((PickedVehicle.VehicleData.VehicleName + "wheelUpgrade").ToString())
                 );
         }
 
@@ -195,11 +202,11 @@ public class CarUpgrades : MonoBehaviour
     public void handlingUpgradeButton(){
         if (handlingFlag) return;
         xPointer = -520;
-        int[] length = list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().P_handlingUpgrade;
+        int[] length = PickedVehicle.GetComponent<carModifier>().P_handlingUpgrade;
         generatedArray = new GameObject[length.Length];
         for (int i = 0; i < length.Length ; i++) {
             generateArray("handlingUpgrade", handlingUpgrade, length,i, handlingPrice,
-                PlayerPrefs.GetInt((list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<controller>().carName + "handlingUpgrade").ToString())
+                PlayerPrefs.GetInt((PickedVehicle.VehicleData.VehicleName + "handlingUpgrade").ToString())
                 );
         }
 
@@ -293,29 +300,32 @@ public class CarUpgrades : MonoBehaviour
                 
                 
     }
-    private void applyPurchase(string testUpgradeString ,int value){
+    private void applyPurchase(string testUpgradeString ,int value)
+    {
 
+        var carModifier = PickedVehicle.GetComponent<carModifier>();
+        
         switch (testUpgradeString){
             case "engineUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_engineUpgrade = value;
+                carModifier.I_engineUpgrade = value;
                 break;       
             case "spoilerUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_spoilerUpgrade = value;
+                carModifier.I_spoilerUpgrade = value;
                 break;         
             case "nitrusUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_nitrusUpgrade = value;
+                carModifier.I_nitrusUpgrade = value;
                 break;       
             case "wheelUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_wheelUpgrade = value;
+                carModifier.I_wheelUpgrade = value;
                 break;           
             case "colorUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_colorUpgrade = value;
+                carModifier.I_colorUpgrade = value;
                 break;           
             case "handlingUpgrade":
-                list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().I_handlingUpgrade = value;
+                carModifier.I_handlingUpgrade = value;
                 break;           
         }
-        list.vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<carModifier>().test();
+        carModifier.test();
         //print("k value > "+k + "price Value > " + i);
 
     }

@@ -4,7 +4,7 @@ using UnityEditor;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/RootData")]
+[CreateAssetMenu(menuName = "DriftTT/Data/RootData")]
 public class RootData : SerializedScriptableObject
 {
 
