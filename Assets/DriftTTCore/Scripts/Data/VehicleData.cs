@@ -23,7 +23,7 @@ namespace DriftTTCore.Scripts.Data
     
         [Header("Variables")] public float HandBrakeFrictionMultiplier = 2f;
         public float MaxRPM, MinRPM;
-        public Dictionary<int, int> GearsDictionary = new();
+        public Dictionary<float, int> GearsDictionary = new();
         public AnimationCurve EnginePower;
 
         public int VehiclePrice;
