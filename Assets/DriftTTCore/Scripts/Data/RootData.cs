@@ -38,6 +38,6 @@ public class RootData : SerializedScriptableObject
 
     #endregion
 
-    public Dictionary<string, GameObject> Vehicles = new();
+    public Dictionary<int, GameObject> Vehicles = new();
 
 }

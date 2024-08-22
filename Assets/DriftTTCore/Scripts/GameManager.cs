@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     //public vehicle Vehicle;
-    public vehicleList list;
     public controller RR;
     public GameObject neeedle;
     public GameObject startPosition;
@@ -32,9 +31,12 @@ public class GameManager : MonoBehaviour {
 
     private int startPositionXvalue = -50-62;
     private bool arrarDisplayed = false,countdownFlag = false;
+
+    public Dictionary<int, GameObject> vehicles => RootData.RootInstance.Vehicles;
+
     private void Awake () {
 
-        Instantiate (list.vehicles[PlayerPrefs.GetInt ("pointer")], startPosition.transform.position, startPosition.transform.rotation);
+        Instantiate (vehicles[PlayerPrefs.GetInt("pointer")], startPosition.transform.position, startPosition.transform.rotation);
         RR = GameObject.FindGameObjectWithTag ("Player").GetComponent<controller> ();
 
         presentGameObjectVehicles = GameObject.FindGameObjectsWithTag ("AI");

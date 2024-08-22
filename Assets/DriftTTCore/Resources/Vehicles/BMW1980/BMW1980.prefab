@@ -6732,7 +6732,7 @@ GameObject:
   - component: {fileID: 8952095242928637465}
   - component: {fileID: 4700269245133275007}
   m_Layer: 0
-  m_Name: bmw 1980
+  m_Name: BMW1980
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

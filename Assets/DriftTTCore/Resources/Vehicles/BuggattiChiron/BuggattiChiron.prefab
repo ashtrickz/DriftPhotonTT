@@ -1660,7 +1660,7 @@ GameObject:
   - component: {fileID: 2201421293988407811}
   - component: {fileID: 1239479861934571936}
   m_Layer: 0
-  m_Name: chiron
+  m_Name: BuggattiChiron
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
