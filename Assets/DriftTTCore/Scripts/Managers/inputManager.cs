@@ -11,7 +11,7 @@ public class inputManager : MonoBehaviour {
 
     // AI components
 
-    private trackWaypoints waypoints;
+    private AIWaypoints waypoints;
     private Transform currentWaypoint;
     private List<Transform> nodes = new List<Transform> ();
     private int distanceOffset = 5;
@@ -22,7 +22,7 @@ public class inputManager : MonoBehaviour {
 
 
     private void Start() {
-        waypoints = GameObject.FindGameObjectWithTag("path").GetComponent<trackWaypoints>();
+        waypoints = GameObject.FindGameObjectWithTag("path").GetComponent<AIWaypoints>();
         currentWaypoint = gameObject.transform;
         nodes = waypoints.nodes;
         

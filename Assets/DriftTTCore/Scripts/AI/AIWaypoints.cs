@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class trackWaypoints : MonoBehaviour{
+public class AIWaypoints : MonoBehaviour{
 
     public Color linecolor;
     [Range(0, 1)] public float SphereRadius;

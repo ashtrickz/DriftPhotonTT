@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AIcontroller : MonoBehaviour{
+public class AIVehicleController : MonoBehaviour{
 
 
     internal enum driveType
@@ -79,7 +79,7 @@ public class AIcontroller : MonoBehaviour{
     }
     // AI 
 
-    public trackWaypoints waypoints;
+    public AIWaypoints waypoints;
     public Transform currentWaypoint;
     public List<Transform> nodes = new List<Transform>();
     [Range(0, 10)] public int distanceOffset = 5;
@@ -327,7 +327,7 @@ public class AIcontroller : MonoBehaviour{
         wheelMesh[2] = wheelMeshes.transform.Find("2").gameObject;
         wheelMesh[3] = wheelMeshes.transform.Find("3").gameObject;
         //waypoints
-        waypoints = GameObject.FindGameObjectWithTag("path").GetComponent<trackWaypoints>();
+        waypoints = GameObject.FindGameObjectWithTag("path").GetComponent<AIWaypoints>();
         currentWaypoint = gameObject.transform;
         nodes = waypoints.nodes;
 

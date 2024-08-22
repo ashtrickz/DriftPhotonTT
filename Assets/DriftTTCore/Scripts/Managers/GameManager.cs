@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour {
     public GameObject uiList;
     public GameObject uiListFolder;
     public GameObject backImage;
-    private List<Vehicle> presentVehicles;
+    private List<AIVehicle> presentVehicles;
     private List<GameObject> temporaryList;
     private GameObject[] temporaryArray;
 
@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour {
 
         presentGameObjectVehicles = GameObject.FindGameObjectsWithTag ("AI");
 
-        presentVehicles = new List<Vehicle> ();
+        presentVehicles = new List<AIVehicle> ();
         foreach (GameObject R in presentGameObjectVehicles)
-            presentVehicles.Add (new Vehicle (R.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName,R.GetComponent<VehicleController> ().HasFinished));
+            presentVehicles.Add (new AIVehicle (R.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName,R.GetComponent<VehicleController> ().HasFinished));
 
-        presentVehicles.Add (new Vehicle (PickedVehicle.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName , PickedVehicle.HasFinished));
+        presentVehicles.Add (new AIVehicle (PickedVehicle.GetComponent<inputManager> ().currentNode, PickedVehicle.VehicleData.VehicleName , PickedVehicle.HasFinished));
 
         temporaryArray = new GameObject[presentVehicles.Count];
 
@@ -87,16 +87,16 @@ public class GameManager : MonoBehaviour {
     private void sortArray () {
 
         for (int i = 0; i < fullArray.Length; i++) {
-            presentVehicles[i].hasFinished = fullArray[i].GetComponent<VehicleController>().HasFinished;
-            presentVehicles[i].name = fullArray[i].GetComponent<VehicleController> ().VehicleData.VehicleName;
-            presentVehicles[i].node = fullArray[i].GetComponent<inputManager> ().currentNode;
+            presentVehicles[i].HasFinished = fullArray[i].GetComponent<VehicleController>().HasFinished;
+            presentVehicles[i].Name = fullArray[i].GetComponent<VehicleController> ().VehicleData.VehicleName;
+            presentVehicles[i].Node = fullArray[i].GetComponent<inputManager> ().currentNode;
         }
 
         if(!PickedVehicle.HasFinished)
         for (int i = 0; i < presentVehicles.Count; i++) {
             for (int j = i + 1; j < presentVehicles.Count; j++) {
-                if (presentVehicles[j].node < presentVehicles[i].node) {
-                    Vehicle QQ = presentVehicles[i];
+                if (presentVehicles[j].Node < presentVehicles[i].Node) {
+                    AIVehicle QQ = presentVehicles[i];
                     presentVehicles[i] = presentVehicles[j];
                     presentVehicles[j] = QQ;
                 }
@@ -106,12 +106,12 @@ public class GameManager : MonoBehaviour {
         
         if(arrarDisplayed)
         for (int i = 0; i < temporaryArray.Length; i++) {
-            temporaryArray[i].transform.Find ("vehicle node").gameObject.GetComponent<Text> ().text = (presentVehicles[i].hasFinished)?"finished":"";
-            temporaryArray[i].transform.Find ("vehicle name").gameObject.GetComponent<Text> ().text = presentVehicles[i].name.ToString ();
+            temporaryArray[i].transform.Find ("vehicle node").gameObject.GetComponent<Text> ().text = (presentVehicles[i].HasFinished)?"finished":"";
+            temporaryArray[i].transform.Find ("vehicle name").gameObject.GetComponent<Text> ().text = presentVehicles[i].Name.ToString ();
         }
         presentVehicles.Reverse();
         for (int i = 0; i < temporaryArray.Length; i++) {
-            if(PickedVehicle.VehicleData.VehicleName == presentVehicles[i].name)
+            if(PickedVehicle.VehicleData.VehicleName == presentVehicles[i].Name)
                 currentPosition.text = ((i+1) + "/" + presentVehicles.Count).ToString();
         }
 
@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour {
         if(arrarDisplayed)return;
         uiList.SetActive(true);
         for (int i = 0; i < presentGameObjectVehicles.Length + 1; i++) {
-            generateList (i, presentVehicles[i].hasFinished, presentVehicles[i].name);
+            generateList (i, presentVehicles[i].HasFinished, presentVehicles[i].Name);
         }
 
         startPositionXvalue = -50;
