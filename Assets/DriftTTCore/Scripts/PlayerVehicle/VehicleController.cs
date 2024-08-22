@@ -71,7 +71,7 @@ public class VehicleController : MonoBehaviour
         animateWheels();
         steerVehicle();
         calculateEnginePower();
-        if (gameObject.tag == "AI") return;
+        if (gameObject.CompareTag("AI")) return;
         adjustTraction();
         activateNitrus();
     }
