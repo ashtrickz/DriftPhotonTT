@@ -94,14 +94,14 @@ public class VehicleController : MonoBehaviour
         float velocity = 0.0f;
         if (engineRPM >= VehicleData.MaxRPM || flag)
         {
-            engineRPM = Mathf.SmoothDamp(engineRPM, VehicleData.MaxRPM - 450, ref velocity, 0.05f);
+            engineRPM = Mathf.SmoothDamp(engineRPM, VehicleData.MaxRPM - 500, ref velocity, 0.05f);
 
             flag = (engineRPM > VehicleData.MaxRPM - 450) ? true : false;
             VehicleData.test = (lastValue > engineRPM) ? true : false;
         }
         else
         {
-            engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 6.6f * (gearNum + 1)), ref velocity,
+            engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * (gearNum > 0 ? gearNum : gearNum + 1)), ref velocity,
                 VehicleData.SmoothTime);
             VehicleData.test = false;
         }
@@ -137,7 +137,7 @@ public class VehicleController : MonoBehaviour
 
     private bool checkGears()
     {
-        return (int)KPH >= VehicleData.GearsDictionary[gearNum + 1];
+        return (int)KPH >= VehicleData.GearsDictionary[gearNum];
     }
 
     private void shifter()
