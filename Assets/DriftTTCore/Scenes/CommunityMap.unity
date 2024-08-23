@@ -4985,7 +4985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35dbb4930d17ca4db3d6eff16a32bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RR: {fileID: 0}
   neeedle: {fileID: 1179472010}
   startPosition: {fileID: 255793733}
   kph: {fileID: 1735399989}
@@ -4997,6 +4996,7 @@ MonoBehaviour:
   uiList: {fileID: 1369471332}
   uiListFolder: {fileID: 1976401522}
   backImage: {fileID: 881357715}
+  Player: {fileID: 0}
 --- !u!4 &1453056649
 Transform:
   m_ObjectHideFlags: 0
@@ -6455,6 +6455,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 561957068492652720, guid: f5ca4b950cb97f749a7f5c401eb29b14,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 561957068492652721, guid: f5ca4b950cb97f749a7f5c401eb29b14,
         type: 3}

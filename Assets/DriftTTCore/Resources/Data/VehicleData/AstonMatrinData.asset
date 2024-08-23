@@ -40,7 +40,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 0.7
+      Data: 1
     - Name: $v
       Entry: 3
       Data: 45
@@ -52,7 +52,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 1.1
+      Data: 4
     - Name: $v
       Entry: 3
       Data: 78
@@ -64,7 +64,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 1.6
+      Data: 2
     - Name: $v
       Entry: 3
       Data: 110
@@ -76,7 +76,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 2.2
+      Data: 3
     - Name: $v
       Entry: 3
       Data: 150
@@ -88,7 +88,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 2.8
+      Data: 5
     - Name: $v
       Entry: 3
       Data: 200
@@ -100,7 +100,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 5
+      Data: 6
     - Name: $v
       Entry: 3
       Data: 250
@@ -114,7 +114,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   DriveType: 2
-  test: 0
+  test: 1
   CarEffects: {fileID: 0}
   HandBrakeFrictionMultiplier: 1.7
   MaxRPM: 8000

@@ -8,19 +8,18 @@ using EDriveType = DriftTTCore.Scripts.Data.VehicleData.EDriveType;
 
 public class VehicleController : MonoBehaviour
 {
-
     [SerializeField] private VehicleData vehicleData;
-    
+
     private GameManager manager;
     inputManager IM;
-    
-    [HideInInspector] public int gearNum = 1;
-    [HideInInspector] public bool playPauseSmoke = false, HasFinished;
-    [HideInInspector] public float KPH;
-    [HideInInspector] public float engineRPM;
-    [HideInInspector] public bool reverse = false;
-    [HideInInspector] public float nitrusValue;
-    [HideInInspector] public bool nitrusFlag = false;
+
+    public int gearNum = 1;
+    public bool playPauseSmoke = false, HasFinished;
+    public float KPH;
+    public float engineRPM;
+    public bool reverse = false;
+    public float nitrusValue;
+    public bool nitrusFlag = false;
 
 
     private GameObject wheelMeshes, wheelColliders;
@@ -46,7 +45,7 @@ public class VehicleController : MonoBehaviour
     private bool flag = false;
 
 
-    public VehicleData VehicleData => vehicleData; 
+    public VehicleData VehicleData => vehicleData;
 
     private void Awake()
     {
@@ -95,14 +94,14 @@ public class VehicleController : MonoBehaviour
         float velocity = 0.0f;
         if (engineRPM >= VehicleData.MaxRPM || flag)
         {
-            engineRPM = Mathf.SmoothDamp(engineRPM, VehicleData.MaxRPM - 500, ref velocity, 0.05f);
+            engineRPM = Mathf.SmoothDamp(engineRPM, VehicleData.MaxRPM - 450, ref velocity, 0.05f);
 
-            flag = (engineRPM >= VehicleData.MaxRPM - 450) ? true : false;
+            flag = (engineRPM > VehicleData.MaxRPM - 450) ? true : false;
             VehicleData.test = (lastValue > engineRPM) ? true : false;
         }
         else
         {
-            engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 3.6f * gearNum),  ref velocity,
+            engineRPM = Mathf.SmoothDamp(engineRPM, 1000 + (Mathf.Abs(wheelsRPM) * 6.6f * (gearNum + 1)), ref velocity,
                 VehicleData.SmoothTime);
             VehicleData.test = false;
         }
@@ -138,15 +137,15 @@ public class VehicleController : MonoBehaviour
 
     private bool checkGears()
     {
-        if (KPH >= VehicleData.GearsDictionary[gearNum]) return true;
-        else return false;
+        return (int)KPH >= VehicleData.GearsDictionary[gearNum + 1];
     }
 
     private void shifter()
     {
         if (!isGrounded()) return;
         //automatic
-        if (engineRPM > VehicleData.MaxRPM && gearNum < VehicleData.GearsDictionary.Count - 1 && !reverse && checkGears())
+        if (engineRPM >= VehicleData.MaxRPM && gearNum < VehicleData.GearsDictionary.Count - 1 && !reverse &&
+            checkGears())
         {
             gearNum++;
             if (gameObject.tag != "AI") manager.changeGear();
@@ -299,7 +298,8 @@ public class VehicleController : MonoBehaviour
             float velocity = 0;
             sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue = forwardFriction.extremumValue =
                 forwardFriction.asymptoteValue =
-                    Mathf.SmoothDamp(forwardFriction.asymptoteValue, driftFactor * VehicleData.HandBrakeFrictionMultiplier,
+                    Mathf.SmoothDamp(forwardFriction.asymptoteValue,
+                        driftFactor * VehicleData.HandBrakeFrictionMultiplier,
                         ref velocity, driftSmothFactor);
 
             for (int i = 0; i < 4; i++)
