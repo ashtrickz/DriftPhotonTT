@@ -6,7 +6,5 @@ using UnityEngine;
 
 public class UpgradesMenuHandler : BaseMenuHandler
 {
-    [Title("Vehicle Upgrade Menu", TitleAlignment = TitleAlignments.Centered), 
-     SerializeField] private Animator upgradesCanvasAnimator;
-    [SerializeField] private TMP_Text upgradesCurrency;
+    [SerializeField] private TMP_Text currencyText;
 }

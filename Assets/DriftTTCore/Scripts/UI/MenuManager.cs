@@ -22,6 +22,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private     MapSelectorHandler mapSelectorHandler;
 
 
+    private BaseMenuHandler _currentMenu;
+    
     [SerializeField] private EMenuType currentMenuState = EMenuType.MainMenu;
 
     private EMenuType _prevMenuState;
@@ -37,10 +39,12 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
+        mainMenuHandler.ManageMenu(this);
+        vehicleSelectorHandler.ManageMenu(this);
+        upgradesMenuHandler.ManageMenu(this);
+        mapSelectorHandler.ManageMenu(this);
 
-        //upgradesCurrency.text = $"Your Money: ${RootData.RootInstance.PlayerData.PlayerMoney.ToString("")}";
-
-
+        SwitchMenu(EMenuType.MainMenu);
         vehiclePointer = PlayerPrefs.GetInt("pointer");
         GameObject childObject =
             Instantiate(Vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation);
@@ -48,12 +52,20 @@ public class MenuManager : MonoBehaviour
         //DrawVehicleInfo();
     }
     
-    
-
-    public void ChangeMenu(EMenuType menuType)
+    public void SwitchMenu(EMenuType menuType)
     {
-        _prevMenuState = currentMenuState;
-        currentMenuState = menuType;
+        _currentMenu?.Exit();
+        
+        _currentMenu = menuType switch
+        {
+            EMenuType.MainMenu => mainMenuHandler,
+            EMenuType.VehicleSelector => vehicleSelectorHandler,
+            EMenuType.MapSelector => mapSelectorHandler,
+            EMenuType.UpgradeMenu => upgradesMenuHandler,
+            _ => _currentMenu
+        };
+        
+        _currentMenu?.Enter();
     }
 
     private void FixedUpdate()

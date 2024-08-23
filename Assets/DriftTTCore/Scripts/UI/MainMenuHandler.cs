@@ -8,22 +8,20 @@ using EMenuType = MenuManager.EMenuType;
 
 public class MainMenuHandler : BaseMenuHandler
 {
-    [Title("Main Menu", TitleAlignment = TitleAlignments.Centered),
-     SerializeField] private Animator mainMenuAnimator;
-    [SerializeField] private Button mainMenuToVehicleSelectionButton;
-    [SerializeField] private TMP_Text mainMenuCurrency;
+    
+    [SerializeField] private Button toVehicleSelectionButton;
+    [SerializeField] private TMP_Text currencyText;
 
     public override void ManageMenu(MenuManager menuManager)
     {
         base.ManageMenu(menuManager);
         
-        mainMenuToVehicleSelectionButton.onClick.RemoveAllListeners();
-        mainMenuToVehicleSelectionButton.onClick.AddListener(() =>
+        toVehicleSelectionButton.onClick.RemoveAllListeners();
+        toVehicleSelectionButton.onClick.AddListener(() =>
         {
-            MenuManager.ChangeMenu(EMenuType.VehicleSelector);
-            FadeOut();
+            MenuManager.SwitchMenu(EMenuType.VehicleSelector);
         });
         
-        mainMenuCurrency.text = $"${RootData.RootInstance.PlayerData.PlayerMoney}";
+        currencyText.text = $"${RootData.RootInstance.PlayerData.PlayerMoney}";
     }
 }

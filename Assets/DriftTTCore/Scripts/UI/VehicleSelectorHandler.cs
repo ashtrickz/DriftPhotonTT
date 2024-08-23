@@ -9,14 +9,12 @@ using EMenuType = MenuManager.EMenuType;
 
 public class VehicleSelectorHandler : BaseMenuHandler
 {
-    [Title("Vehicle Selection Menu", TitleAlignment = TitleAlignments.Centered),
-     SerializeField] private Animator vehicleSelectCanvasAnimator;
-    
+
     [SerializeField] private Button buyVehicleButton;
     [SerializeField] private Button pickMapButton;
     [SerializeField] private Button backToMenuButton;
-    [SerializeField] private Button vehicleSelectorPreviousButton;
-    [SerializeField] private Button vehicleSelectorNextButton;
+    [SerializeField] private Button previousButton;
+    [SerializeField] private Button nextButton;
     
     [SerializeField] private TMP_Text currency;
     [SerializeField] private TMP_Text carInfo;
@@ -32,11 +30,11 @@ public class VehicleSelectorHandler : BaseMenuHandler
     {
         base.ManageMenu(menuManager);
         
-        vehicleSelectorNextButton.onClick.RemoveAllListeners();
-        vehicleSelectorNextButton.onClick.AddListener(DrawNextVehicle);
+        nextButton.onClick.RemoveAllListeners();
+        nextButton.onClick.AddListener(DrawNextVehicle);
 
-        vehicleSelectorPreviousButton.onClick.RemoveAllListeners();
-        vehicleSelectorPreviousButton.onClick.AddListener(DrawPreviousVehicle);
+        previousButton.onClick.RemoveAllListeners();
+        previousButton.onClick.AddListener(DrawPreviousVehicle);
         
         buyVehicleButton.onClick.RemoveAllListeners();
         buyVehicleButton.onClick.AddListener(TryBuyVehicle);
@@ -44,7 +42,7 @@ public class VehicleSelectorHandler : BaseMenuHandler
         backToMenuButton.onClick.RemoveAllListeners();
         backToMenuButton.onClick.AddListener(() =>
         {
-            MenuManager.ChangeMenu(EMenuType.MainMenu);
+            MenuManager.SwitchMenu(EMenuType.MainMenu);
         });
         
         carInfo.text = $"Your Money: ${RootData.RootInstance.PlayerData.PlayerMoney.ToString("")}";

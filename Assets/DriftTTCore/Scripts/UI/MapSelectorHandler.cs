@@ -5,6 +5,4 @@ using UnityEngine;
 
 public class MapSelectorHandler : BaseMenuHandler
 {
-    [Title("Map Selection Menu", TitleAlignment = TitleAlignments.Centered), 
-     SerializeField] public Animator mapSelectorCanvasAnimator;
 }
