@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using EMenuType = MenuManager.EMenuType;
@@ -43,6 +44,12 @@ public class VehicleSelectorHandler : BaseMenuHandler
         backToMenuButton.onClick.AddListener(() =>
         {
             MenuManager.SwitchMenu(EMenuType.MainMenu);
+        });
+        
+        pickMapButton.onClick.RemoveAllListeners();
+        pickMapButton.onClick.AddListener(() =>
+        {
+            MenuManager.SwitchMenu(EMenuType.MapSelector);
         });
         
         carInfo.text = $"Your Money: ${RootData.RootInstance.PlayerData.PlayerMoney.ToString("")}";

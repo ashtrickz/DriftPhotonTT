@@ -94,3 +94,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   PlayerData: {fileID: 11400000, guid: e8512667c990d1b4d908c9fdf642c492, type: 2}
+  Maps:
+  - CommunityMap
+  - MarioMap

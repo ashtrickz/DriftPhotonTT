@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using Sirenix.OdinInspector;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "DriftTT/Data/RootData")]
@@ -42,5 +43,6 @@ public class RootData : SerializedScriptableObject
     public PlayerData PlayerData;
     
     public Dictionary<int, GameObject> Vehicles = new();
+    public List<string> Maps = new();
 
 }
