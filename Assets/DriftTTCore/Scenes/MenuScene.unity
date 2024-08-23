@@ -253,7 +253,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2038230661}
   - {fileID: 498153675}
   - {fileID: 41189464}
   - {fileID: 1760993737}
@@ -498,6 +497,7 @@ Transform:
   - {fileID: 453071043}
   - {fileID: 1038715322}
   - {fileID: 1686245647}
+  - {fileID: 2038230661}
   - {fileID: 203790290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -723,7 +723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2038230661}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: VehilceSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,12 +737,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038230660}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 203790290}
+  m_Father: {fileID: 844420887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1786328287052117537
 MeshFilter:
@@ -1257,6 +1257,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -113.33604
       objectReference: {fileID: 0}
+    - target: {fileID: 5062616240285560086, guid: cd3af0c83ff3a7341bd691a28a360984,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6077234773174604385, guid: cd3af0c83ff3a7341bd691a28a360984,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1382,6 +1387,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6738242384168267068, guid: cd3af0c83ff3a7341bd691a28a360984,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 7305111618679583602, guid: cd3af0c83ff3a7341bd691a28a360984,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1462,6 +1472,11 @@ PrefabInstance:
       propertyPath: startCameraPosition
       value: 
       objectReference: {fileID: 385529256}
+    - target: {fileID: 7423954984022791094, guid: cd3af0c83ff3a7341bd691a28a360984,
+        type: 3}
+      propertyPath: vehicleSpawnPosition
+      value: 
+      objectReference: {fileID: 2038230661}
     - target: {fileID: 7451627353295103604, guid: cd3af0c83ff3a7341bd691a28a360984,
         type: 3}
       propertyPath: m_AnchorMax.y

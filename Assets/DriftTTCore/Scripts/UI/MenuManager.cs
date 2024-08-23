@@ -21,37 +21,32 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private    UpgradesMenuHandler upgradesMenuHandler;
     [SerializeField] private     MapSelectorHandler mapSelectorHandler;
 
-
-    private BaseMenuHandler _currentMenu;
+    [SerializeField, Space] private GameObject podium;
+    [SerializeField, Range(0, 50)] private float podiumRotationSpeed = 10f;
+    [SerializeField] private Transform vehicleSpawnPosition;
     
-    [SerializeField] private EMenuType currentMenuState = EMenuType.MainMenu;
-
-    private EMenuType _prevMenuState;
-    
-    public Dictionary<int, GameObject> Vehicles => RootData.RootInstance.Vehicles;
-
-
-    public GameObject toRotate;
-    [HideInInspector] public float rotateSpeed = 10f;
-    [HideInInspector] public int vehiclePointer = 0;
     public bool FinalToStart;
     public bool StartToFinal;
 
+    private BaseMenuHandler _currentMenu;
+
+    [NonSerialized] public int VehiclePointer = 0;
+
+    public Dictionary<int, GameObject> Vehicles => RootData.RootInstance.Vehicles;
+
     private void Awake()
     {
-        mainMenuHandler.ManageMenu(this);
+        mainMenuHandler       .ManageMenu(this);
         vehicleSelectorHandler.ManageMenu(this);
-        upgradesMenuHandler.ManageMenu(this);
-        mapSelectorHandler.ManageMenu(this);
+        upgradesMenuHandler   .ManageMenu(this);
+        mapSelectorHandler    .ManageMenu(this);
 
         SwitchMenu(EMenuType.MainMenu);
-        vehiclePointer = PlayerPrefs.GetInt("pointer");
-        GameObject childObject =
-            Instantiate(Vehicles[vehiclePointer], Vector3.zero, toRotate.transform.rotation);
-        childObject.transform.parent = toRotate.transform;
-        //DrawVehicleInfo();
+        
+        VehiclePointer = PlayerPrefs.GetInt("pointer");
+        SpawnVehicle();
     }
-    
+
     public void SwitchMenu(EMenuType menuType)
     {
         _currentMenu?.Exit();
@@ -70,11 +65,17 @@ public class MenuManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        toRotate.transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
-        cameraTranzition();
+        podium.transform.Rotate(Vector3.up * podiumRotationSpeed * Time.deltaTime);
+        MoveCamera();
     }
 
-    public void cameraTranzition()
+    public void SpawnVehicle()
+    {
+        GameObject childObject = Instantiate(Vehicles[VehiclePointer], vehicleSpawnPosition.position, podium.transform.rotation);
+        childObject.transform.parent = podium.transform;
+    }
+
+    private void MoveCamera()
     {
         if (StartToFinal)
         {
@@ -89,16 +90,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void loadMarioMap()
-    {
-        SceneManager.LoadScene("MarioMap");
-    }
-
-    public void loadComunityMap()
-    {
-        SceneManager.LoadScene("CommunityMap");
-    }
-    
     public enum EMenuType
     {
         MainMenu,

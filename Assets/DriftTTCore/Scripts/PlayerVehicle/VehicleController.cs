@@ -4,7 +4,6 @@ using System.Linq;
 using DriftTTCore.Scripts.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DriftTTCore.Scripts.Data;
 using EDriveType = DriftTTCore.Scripts.Data.VehicleData.EDriveType;
 
 public class VehicleController : MonoBehaviour

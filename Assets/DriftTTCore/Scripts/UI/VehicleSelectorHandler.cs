@@ -20,11 +20,16 @@ public class VehicleSelectorHandler : BaseMenuHandler
     [SerializeField] private TMP_Text currency;
     [SerializeField] private TMP_Text carInfo;
     private Dictionary<int, GameObject> Vehicles => MenuManager.Vehicles;
-
-    private void OnEnable()
+    private int VehicleId => PlayerPrefs.GetInt("pointer");
+    
+    public override void Enter()
     {
+        base.Enter();
+        
         MenuManager.StartToFinal = true;
         MenuManager.FinalToStart = false;
+
+        DrawVehicleInfo();
     }
 
     public override void ManageMenu(MenuManager menuManager)
@@ -55,63 +60,44 @@ public class VehicleSelectorHandler : BaseMenuHandler
         carInfo.text = $"Your Money: ${RootData.RootInstance.PlayerData.PlayerMoney.ToString("")}";
     }
     
-    public void DrawNextVehicle()
-    {
-        if (MenuManager.vehiclePointer < Vehicles.Values.Count - 1)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("Player"));
-            MenuManager.vehiclePointer++;
-            PlayerPrefs.SetInt("pointer", MenuManager.vehiclePointer);
-            GameObject childObject =
-                Instantiate(Vehicles[MenuManager.vehiclePointer], Vector3.zero,
-                    MenuManager.toRotate.transform.rotation);
-            childObject.transform.parent = MenuManager.toRotate.transform;
-            DrawVehicleInfo();
-        }
-    }
+    public void DrawNextVehicle() => ChangeSelectorIndex(1);
 
-    public void DrawPreviousVehicle()
-    {
-        if (MenuManager.vehiclePointer > 0)
-        {
-            Destroy(GameObject.FindGameObjectWithTag("Player"));
-            MenuManager.vehiclePointer--;
-            PlayerPrefs.SetInt("pointer", MenuManager.vehiclePointer);
-            GameObject childObject =
-                Instantiate(Vehicles[MenuManager.vehiclePointer], Vector3.zero,
-                    MenuManager.toRotate.transform.rotation);
-            childObject.transform.parent = MenuManager.toRotate.transform;
-            DrawVehicleInfo();
-        }
-    }
+    public void DrawPreviousVehicle() => ChangeSelectorIndex(-1);
 
-    private void ChangeSelectorIndex(int i)
+    private void ChangeSelectorIndex(int index)
     {
+        var vehId = MenuManager.VehiclePointer + index;
+        if (vehId < 0 || vehId > Vehicles.Count - 1) return;
         
+        Destroy(GameObject.FindGameObjectWithTag("Player")); // TODO Delete this frkn Find!
+        MenuManager.VehiclePointer = vehId;
+        
+        PlayerPrefs.SetInt("pointer", MenuManager.VehiclePointer);
+        MenuManager.SpawnVehicle();
+
+        DrawVehicleInfo();
     }
     
     private void TryBuyVehicle()
     {
         var playerData = RootData.RootInstance.PlayerData;
-        var pickedVehicle = Vehicles[PlayerPrefs.GetInt("pointer")].GetComponent<VehicleController>();
+        var pickedVehicle = Vehicles[VehicleId].GetComponent<VehicleController>();
         var pickedVehicleData = pickedVehicle.VehicleData;
 
         if (playerData.PlayerMoney < pickedVehicleData.VehiclePrice) return;
         
         playerData.ChangeMoneyValue(-pickedVehicle.VehicleData.VehiclePrice);
-        playerData.UnlockVehicle(PlayerPrefs.GetInt("pointer"));
+        playerData.UnlockVehicle(VehicleId);
         
         DrawVehicleInfo();
     }
     
     private void DrawVehicleInfo()
     {
-        var vehicleId = PlayerPrefs.GetInt("pointer");
-        var pickedVehicle = Vehicles[vehicleId].GetComponent<VehicleController>();
+        var pickedVehicle = Vehicles[VehicleId].GetComponent<VehicleController>();
         var pickedVehicleData = pickedVehicle.VehicleData;
         
-
-        if (RootData.RootInstance.PlayerData.UnlockedVehicles.Contains(vehicleId))
+        if (RootData.RootInstance.PlayerData.UnlockedVehicles.Contains(VehicleId))
         {
             carInfo.text = $"{pickedVehicleData.VehicleName} \nOwned";
             pickMapButton.gameObject.SetActive(true);
