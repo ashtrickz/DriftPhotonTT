@@ -40,7 +40,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 0
+      Data: 1
     - Name: $v
       Entry: 3
       Data: 45
@@ -52,7 +52,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 3
+      Data: 4
     - Name: $v
       Entry: 3
       Data: 78
@@ -64,7 +64,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 1
+      Data: 2
     - Name: $v
       Entry: 3
       Data: 110
@@ -76,7 +76,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 2
+      Data: 3
     - Name: $v
       Entry: 3
       Data: 150
@@ -88,7 +88,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 4
+      Data: 5
     - Name: $v
       Entry: 3
       Data: 200
@@ -100,7 +100,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 4
-      Data: 5
+      Data: 6
     - Name: $v
       Entry: 3
       Data: 250
@@ -114,7 +114,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   DriveType: 2
-  test: 1
+  test: 0
   CarEffects: {fileID: 0}
   HandBrakeFrictionMultiplier: 1.7
   MaxRPM: 8000
@@ -123,17 +123,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.32337415
-      outSlope: 0.32337415
+      time: 4.3
+      value: 362
+      inSlope: 0.1161877
+      outSlope: 0.1161877
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.037488744
+      outWeight: 0.07729408
     - serializedVersion: 3
       time: 7900
-      value: 777
+      value: 777.9002
       inSlope: 0.00024235676
       outSlope: 0.00024235676
       tangentMode: 0
@@ -143,8 +143,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 9530
       value: 565
-      inSlope: -0.13006134
-      outSlope: -0.13006134
+      inSlope: -0.13061363
+      outSlope: -0.13061363
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -154,4 +154,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   VehiclePrice: 10000
   VehicleName: Aston Martin DB 11
-  SmoothTime: 0.09
+  SmoothTime: 0.05
